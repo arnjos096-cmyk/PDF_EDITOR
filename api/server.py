@@ -9,6 +9,7 @@ import os
 import sys
 import subprocess
 import json
+import tempfile
 from werkzeug.utils import secure_filename
 
 # Add AI module to path
@@ -19,7 +20,8 @@ app = Flask(__name__, static_folder='../frontend', static_url_path='')
 CORS(app)
 
 # Configuration
-UPLOAD_FOLDER = '/tmp/pdf_uploads'
+# Use environment variable or create temp directory for uploads (cross-platform)
+UPLOAD_FOLDER = os.environ.get('PDF_UPLOAD_DIR', os.path.join(tempfile.gettempdir(), 'pdf_uploads'))
 ALLOWED_EXTENSIONS = {'pdf'}
 MAX_FILE_SIZE = 16 * 1024 * 1024  # 16MB
 
@@ -90,8 +92,14 @@ def process_command():
         backend_path = os.path.join(os.path.dirname(__file__), '..', 'backend', 'pdf_operations')
         
         try:
-            # In production, would actually execute the command
-            # For now, simulate the execution
+            # NOTE: Current implementation simulates execution for demo purposes.
+            # TODO: For production, uncomment the actual execution code below and ensure:
+            # 1. C++ backend is built (run 'make' in backend/)
+            # 2. PDF library integration (PoDoFo/QPdf) is configured
+            # 3. Proper error handling and timeout management
+            # 4. File permissions and security are validated
+            
+            # SIMULATION MODE (default for demo)
             result = {
                 'command': cmd['action'],
                 'description': cmd['description'],
@@ -99,15 +107,26 @@ def process_command():
                 'message': f"Would execute: {cmd_string}"
             }
             
-            # Uncomment to actually run C++ backend:
-            # process = subprocess.run(
-            #     [backend_path] + cmd_string.split(),
-            #     capture_output=True,
-            #     text=True,
-            #     timeout=30
-            # )
-            # result['output'] = process.stdout
-            # result['status'] = 'success' if process.returncode == 0 else 'error'
+            # PRODUCTION MODE (uncomment to enable actual execution):
+            # if os.path.exists(backend_path):
+            #     process = subprocess.run(
+            #         [backend_path] + cmd_string.split(),
+            #         capture_output=True,
+            #         text=True,
+            #         timeout=30
+            #     )
+            #     result = {
+            #         'command': cmd['action'],
+            #         'description': cmd['description'],
+            #         'output': process.stdout,
+            #         'status': 'success' if process.returncode == 0 else 'error'
+            #     }
+            # else:
+            #     result = {
+            #         'command': cmd['action'],
+            #         'status': 'error',
+            #         'message': 'C++ backend not built. Run: cd backend && make'
+            #     }
             
             results.append(result)
         except Exception as e:

@@ -20,6 +20,18 @@ if ! command -v g++ &> /dev/null; then
     exit 1
 fi
 
+# Recommend using virtual environment
+if [ -z "$VIRTUAL_ENV" ]; then
+    echo "⚠️  Note: It's recommended to use a virtual environment."
+    echo "   To create one: python3 -m venv venv && source venv/bin/activate"
+    echo ""
+    read -p "Continue anyway? (y/n) " -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        exit 0
+    fi
+fi
+
 # Install Python dependencies
 echo "Installing Python dependencies..."
 pip install -q -r requirements.txt
