@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI PDF Commander</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤖 AI PDF Commander</h1>
+            <p class="subtitle">Edit PDFs by chatting with them - No complex menus!</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Upload Section -->
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📄</div>
+                    <p>Drop PDF files here or click to upload</p>
+                    <input type="file" id="fileInput" accept=".pdf" multiple hidden>
+                    <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                        Choose Files
+                    </button>
+                </div>
+                <div class="files-list" id="filesList"></div>
+            </div>
+
+            <!-- Chat Interface -->
+            <div class="chat-section">
+                <div class="chat-header">
+                    <h2>💬 Chat with your PDFs</h2>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message system">
+                        <div class="message-content">
+                            <strong>AI PDF Commander:</strong> Hello! Upload your PDF files and tell me what you'd like to do. 
+                            For example: "Merge these files" or "Remove the last page from document.pdf"
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-input-container">
+                    <textarea 
+                        id="chatInput" 
+                        placeholder="Type your command... (e.g., 'Merge these notes and remove the last page')"
+                        rows="2"
+                    ></textarea>
+                    <button class="send-btn" id="sendBtn" onclick="sendCommand()">
+                        <span>Send</span>
+                        <span class="icon">➤</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Status Section -->
+        <div class="status-section" id="statusSection" style="display: none;">
+            <div class="status-content" id="statusContent"></div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

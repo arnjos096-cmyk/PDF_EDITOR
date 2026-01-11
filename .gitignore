@@ -1,0 +1,40 @@
+# Build artifacts
+*.o
+pdf_processor
+*.exe
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp files
+/tmp/
+*.tmp
+*.log
+
+# Node modules (if using Node.js backend)
+node_modules/
+package-lock.json
+
+# Test files
+test_*.pdf
+output_*.pdf
+merged_*.pdf
+watermarked_*.pdf
