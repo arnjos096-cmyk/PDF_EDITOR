@@ -53,6 +53,7 @@ echo ""
 echo "Starting server..."
 echo "Access the application at: http://localhost:5000"
 echo ""
+echo "💡 Tip: Set DEBUG=true environment variable for development mode"
 echo "Press Ctrl+C to stop the server"
 echo ""
 

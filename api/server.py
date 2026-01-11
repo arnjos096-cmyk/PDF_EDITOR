@@ -187,4 +187,12 @@ def get_supported_commands():
 if __name__ == '__main__':
     print("Starting AI PDF Commander server...")
     print("Access the application at: http://localhost:5000")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    
+    # Use environment variable to control debug mode (default: False for security)
+    # Set DEBUG=true in environment for development
+    debug_mode = os.environ.get('DEBUG', 'false').lower() == 'true'
+    
+    if debug_mode:
+        print("⚠️  WARNING: Running in DEBUG mode. Do not use in production!")
+    
+    app.run(debug=debug_mode, host='0.0.0.0', port=5000)
