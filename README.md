@@ -2,21 +2,22 @@
 
 NeuroPDF is a high-performance web application that allows users to edit PDF documents using natural language commands. Instead of navigating complex menus or paying for premium software, users simply upload a file and type instructions like "Redact the word Confidential" or "Add a draft watermark".
 
-Under the hood, NeuroPDF utilizes **Google Gemini's Function Calling (Tools)** to intelligently parse user intent. It then securely routes these commands to a highly precise Python backend for execution.
+Under the hood, NeuroPDF utilizes the industry-standard **OpenAI Function Calling (Tools)** format to intelligently parse user intent. This allows the backend to be completely **LLM-Agnostic**—you can plug in OpenAI, Groq, Anthropic, or even run local models via Ollama. It securely routes these commands to a highly precise Python backend for physical PDF execution.
 
 ## Features
+- **Provider-Agnostic LLM:** Connects to any AI provider that supports the OpenAI API format and Tool Calling.
 - **Natural Language Editing:** Tell the AI exactly what you want to do (e.g., "Add a confidential watermark").
 - **Undo/History System:** Make a mistake? Just tell the AI to "undo", "revert", or "remove", and the document safely reverts to its previous state.
 - **High-Precision Backend:** Uses PyMuPDF on a Python backend for accurate physical PDF manipulation (like finding text coordinates for true text redaction).
 
 ## Tech Stack
 - **Frontend:** React, Vite, Lucide Icons.
-- **Backend:** Python, FastAPI, PyMuPDF (`fitz`), `@google/genai`.
+- **Backend:** Python, FastAPI, PyMuPDF (`fitz`), `openai` (Python SDK).
 
 ## Prerequisites
 - Node.js (v18+)
 - Python (v3.10+)
-- A [Google Gemini API Key](https://aistudio.google.com/)
+- An API Key from an AI Provider (e.g., OpenAI, Groq, Together) or a local Ollama instance.
 
 ## Setup Instructions
 
@@ -39,10 +40,28 @@ The backend handles all LLM intent classification and PDF operations.
    ```bash
    pip install -r requirements.txt
    ```
-4. Set your Gemini API key in your environment variables. You can do this in your terminal before running the server:
+4. Set your LLM environment variables. Because we use the standard `openai` package, you can connect to *any* provider:
+   
+   **For OpenAI (Default):**
    ```bash
-   export VITE_GEMINI_API_KEY="your_actual_api_key_here"
+   export OPENAI_API_KEY="sk-..."
+   export LLM_MODEL="gpt-4o-mini" # Optional
    ```
+   
+   **For Groq (Super Fast & Free):**
+   ```bash
+   export OPENAI_API_KEY="gsk_..."
+   export OPENAI_BASE_URL="https://api.groq.com/openai/v1"
+   export LLM_MODEL="llama3-8b-8192"
+   ```
+   
+   **For Ollama (100% Local & Free):**
+   ```bash
+   export OPENAI_API_KEY="ollama" # Just needs a placeholder
+   export OPENAI_BASE_URL="http://localhost:11434/v1"
+   export LLM_MODEL="llama3.1" # Make sure you have pulled a model that supports tools
+   ```
+
 5. Start the FastAPI backend server:
    ```bash
    uvicorn main:app --reload
